@@ -7,16 +7,18 @@
  * https://developer.spotify.com/web-api/authorization-guide/#authorization_code_flow
  */
 
+require("dotenv").config();
+
+
 var express = require("express"); // Express web server framework
 var request = require("request"); // "Request" library
 var cors = require("cors");
 var querystring = require("querystring");
 var cookieParser = require("cookie-parser");
 
-var client_id = "12d901ef5f2c49cb852c5767dbbe0fbd"; // Your client id
-var client_secret = "d707008767c84bf18988f8c492a63364"; // Your secret
-var redirect_uri = "http://localhost:8888/callback"; // Your redirect uri
-
+var client_id = process.env.CLIENT_ID; // Your client id
+var client_secret = process.env.CLIENT_SECRET; // Your secret
+var redirect_uri = process.env.REDIRECT_URI;
 /**
  * Generates a random string containing numbers and letters
  * @param  {number} length The length of the string
