@@ -3,6 +3,7 @@ import logo from "./logo.svg";
 import "./App.css";
 import SpotifyWebApi from "spotify-web-api-js";
 import axios from "axios";
+import ReactCalendar from "./components/ReactCalendar";
 const spotifyApi = new SpotifyWebApi();
 
 class App extends Component {
@@ -82,6 +83,7 @@ class App extends Component {
             Check Now Playing
           </button>
         )}
+        <ReactCalendar />
       </div>
     );
   }
