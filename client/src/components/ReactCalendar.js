@@ -10,11 +10,11 @@ function ReactCalendar(props) {
   }
 
   function onClick(){
-    console.log(props.artist)
+    console.log(props.topArtist)
   }
 
   const tileContent = ({ date, view }) =>
-    view === "month" && date.getDay() === 1 ? <p>Monday!</p> : null;
+    view === "month" && date.getDay() === 1 ? <p>{props.topArtist}</p> : null;
 
   return (
     <div>

@@ -18,7 +18,7 @@ class App extends Component {
       loggedIn: token ? true : false,
       nowPlaying: { name: "Not Checked", albumArt: "" },
       myToken: token,
-      artistName: null
+      artistNames: []
     };
     this.getHashParams=this.getHashParams.bind(this)
     this.getNowPlaying=this.getNowPlaying.bind(this)
@@ -92,7 +92,7 @@ class App extends Component {
       }
     );
     this.setState({
-      artistName: response.data.items[0].name
+      artistNames: [response.data.items[0].name, response.data.items[1].name, response.data.items[2].name]
     });
 
     console.log(response.data);
@@ -112,7 +112,7 @@ class App extends Component {
             Check Now Playing
           </button>
         )}
-        <ReactCalendar artist={this.state.artistName}/>
+        <ReactCalendar topArtist={this.state.artistNames}/>
       </div>
     );
   }
