@@ -18,7 +18,28 @@ class App extends Component {
       loggedIn: token ? true : false,
       nowPlaying: { name: "Not Checked", albumArt: "" },
       myToken: token,
+      artistName: null
     };
+  }
+
+
+  componentDidMount() {
+    fetch("https://api.example.com/items")
+      .then(res => res.json())
+      .then(
+        (result) => {
+          this.setState({
+            isLoaded: true,
+            items: result.items
+          });
+        },
+        (error) => {
+          this.setState({
+            isLoaded: true,
+            error
+          });
+        }
+      )
   }
 
   getHashParams() {
@@ -66,6 +87,10 @@ class App extends Component {
         },
       }
     );
+    this.setState({
+      artistName: response.data.items[0].name
+    });
+
     console.log(response.data);
   }
 
