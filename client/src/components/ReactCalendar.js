@@ -2,12 +2,17 @@ import React, { useState } from "react";
 import Calendar from "react-calendar";
 import "./ReactCalendar.css";
 
-function ReactCalendar() {
+function ReactCalendar(props) {
   const [value, setValue] = useState(new Date());
 
   function onChange(nextValue) {
     setValue(nextValue);
   }
+
+  function onClick(){
+    console.log(props.artist)
+  }
+
   const tileContent = ({ date, view }) =>
     view === "month" && date.getDay() === 1 ? <p>Monday!</p> : null;
 
@@ -19,6 +24,7 @@ function ReactCalendar() {
         className='calendar'
         tileContent={tileContent}
         tileDisabled={({ date }) => date.getDay() === 0}
+        onClickDay={onClick}
       />
       {console.log(value)}
     </div>

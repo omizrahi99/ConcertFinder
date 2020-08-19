@@ -20,27 +20,31 @@ class App extends Component {
       myToken: token,
       artistName: null
     };
+    this.getHashParams=this.getHashParams.bind(this)
+    this.getNowPlaying=this.getNowPlaying.bind(this)
+    this.getLikedSongs=this.getLikedSongs.bind(this)
+    this.getTopArtists=this.getTopArtists.bind(this)
   }
 
 
-  componentDidMount() {
-    fetch("https://api.example.com/items")
-      .then(res => res.json())
-      .then(
-        (result) => {
-          this.setState({
-            isLoaded: true,
-            items: result.items
-          });
-        },
-        (error) => {
-          this.setState({
-            isLoaded: true,
-            error
-          });
-        }
-      )
-  }
+  // componentDidMount() {
+  //   fetch("https://api.example.com/items")
+  //     .then(res => res.json())
+  //     .then(
+  //       (result) => {
+  //         this.setState({
+  //           isLoaded: true,
+  //           items: result.items
+  //         });
+  //       },
+  //       (error) => {
+  //         this.setState({
+  //           isLoaded: true,
+  //           error
+  //         });
+  //       }
+  //     )
+  // }
 
   getHashParams() {
     var hashParams = {};
@@ -108,7 +112,7 @@ class App extends Component {
             Check Now Playing
           </button>
         )}
-        <ReactCalendar />
+        <ReactCalendar artist={this.state.artistName}/>
       </div>
     );
   }
