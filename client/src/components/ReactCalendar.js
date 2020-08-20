@@ -9,7 +9,7 @@ function ReactCalendar(props) {
     setValue(nextValue);
   }
 
-  function onClick(){
+  function onClickHandler(){
     console.log(props.topArtist)
   }
 
@@ -24,7 +24,7 @@ function ReactCalendar(props) {
         className='calendar'
         tileContent={tileContent}
         tileDisabled={({ date }) => date.getDay() === 0}
-        onClickDay={onClick}
+        onClickDay={onClickHandler}
       />
       {console.log(value)}
     </div>

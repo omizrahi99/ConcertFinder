@@ -4,6 +4,8 @@ import "./App.css";
 import SpotifyWebApi from "spotify-web-api-js";
 import axios from "axios";
 import ReactCalendar from "./components/ReactCalendar";
+import Concert from "./components/Concert";
+
 const spotifyApi = new SpotifyWebApi();
 
 class App extends Component {
@@ -113,6 +115,7 @@ class App extends Component {
           </button>
         )}
         <ReactCalendar topArtist={this.state.artistNames}/>
+        <Concert topArtist={this.state.artistNames} />
       </div>
     );
   }
