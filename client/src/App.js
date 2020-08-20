@@ -20,12 +20,20 @@ class App extends Component {
       loggedIn: token ? true : false,
       nowPlaying: { name: "Not Checked", albumArt: "" },
       myToken: token,
-      artistNames: []
+      artistNames: [],
+      clicked: null
     };
     this.getHashParams=this.getHashParams.bind(this)
     this.getNowPlaying=this.getNowPlaying.bind(this)
     this.getLikedSongs=this.getLikedSongs.bind(this)
     this.getTopArtists=this.getTopArtists.bind(this)
+    this.handleClick=this.handleClick.bind(this)
+  }
+
+  handleClick(){
+    this.setState({
+      clicked: true
+    });
   }
 
 
@@ -47,6 +55,11 @@ class App extends Component {
   //       }
   //     )
   // }
+
+
+
+ 
+
 
   getHashParams() {
     var hashParams = {};
@@ -100,6 +113,7 @@ class App extends Component {
     console.log(response.data);
   }
 
+
   render() {
     this.getTopArtists();
     return (
@@ -114,8 +128,9 @@ class App extends Component {
             Check Now Playing
           </button>
         )}
-        <ReactCalendar topArtist={this.state.artistNames}/>
-        <Concert topArtist={this.state.artistNames} />
+        <ReactCalendar topArtist={this.state.artistNames} tileContent={this.state.artistNames} handleClick={this.handleClick}/>
+        {this.state.clicked ? <Concert topArtist={this.state.artistNames} /> : null}
+
       </div>
     );
   }

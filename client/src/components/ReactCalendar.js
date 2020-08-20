@@ -3,30 +3,32 @@ import Calendar from "react-calendar";
 import "./ReactCalendar.css";
 
 function ReactCalendar(props) {
-  const [value, setValue] = useState(new Date());
+  const [date, setDate] = useState(new Date());
 
-  function onChange(nextValue) {
-    setValue(nextValue);
+  function onChange(date) {
+    setDate(date);
   }
 
-  function onClickHandler(){
-    console.log(props.topArtist)
-  }
 
-  const tileContent = ({ date, view }) =>
-    view === "month" && date.getDay() === 1 ? <p>{props.topArtist}</p> : null;
+
+
+  // function onClickHandler(){
+  //   console.log(props.topArtist)
+  // }
+
+  // const tileContent = ({ date, view }) =>
+  //   view === "month" && date.getDay() === 1 ? <p>{props.topArtist}</p> : null;
 
   return (
     <div>
       <Calendar
         onChange={onChange}
-        value={value}
+        value={date}
         className='calendar'
-        tileContent={tileContent}
+        tileContent={props.tileContent}
         tileDisabled={({ date }) => date.getDay() === 0}
-        onClickDay={onClickHandler}
+        onClickDay={props.handleClick}
       />
-      {console.log(value)}
     </div>
   );
 }
