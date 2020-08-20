@@ -7,10 +7,8 @@ function ReactCalendar(props) {
 
   function onChange(date) {
     setDate(date);
+    console.log(date);
   }
-
-
-
 
   // function onClickHandler(){
   //   console.log(props.topArtist)
@@ -34,4 +32,3 @@ function ReactCalendar(props) {
 }
 
 export default ReactCalendar;
-
