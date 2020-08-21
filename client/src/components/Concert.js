@@ -1,16 +1,16 @@
-import React, { useState } from "react";
-import "./ReactCalendar.css";
+import React from "react";
+
 
 function Concert(props) {
- 
+
 
   return (
     <div>
-      <ol>
+      <ul>
         <li>{props.topArtist[0]}</li>
         <li>{props.topArtist[1]}</li>
         <li>{props.topArtist[2]}</li>
-      </ol>
+      </ul>
     </div>
   );
 }

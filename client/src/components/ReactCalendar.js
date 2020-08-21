@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Calendar from "react-calendar";
-import "./ReactCalendar.css";
+import style from "./ReactCalendar.css";
 
 function ReactCalendar(props) {
   const [date, setDate] = useState(new Date());
@@ -27,7 +27,7 @@ function ReactCalendar(props) {
         tileDisabled={({ date }) => date.getDay() === 0}
         onClickDay={props.handleClick}
       />
-      <p>Date: {date.toString()}</p>
+        {props.loggedIn ? <p>Date: {date.toString()}</p> : null}
     </div>
   );
 }

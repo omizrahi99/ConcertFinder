@@ -1,6 +1,6 @@
 import React, { Component } from "react";
 import logo from "./logo.svg";
-import "./App.css";
+import styling from "./App.css";
 import SpotifyWebApi from "spotify-web-api-js";
 import axios from "axios";
 import ReactCalendar from "./components/ReactCalendar";
@@ -129,8 +129,14 @@ class App extends Component {
             Check Now Playing
           </button>
         )}
-        <ReactCalendar topArtist={this.state.artistNames} tileContent={this.state.artistNames} handleClick={this.handleClick}/>
-        {this.state.clicked ? <Concert topArtist={this.state.artistNames} /> : null}
+        <div>
+          <ReactCalendar topArtist={this.state.artistNames} tileContent={this.state.artistNames} handleClick={this.handleClick} loggedIn={this.state.loggedIn}/>
+        </div>
+        <div style={styling.fromleft}>
+          {this.state.clicked ? <Concert topArtist={this.state.artistNames} /> : null}
+        </div>
+        
+        
 
       </div>
     );
