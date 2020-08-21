@@ -21,7 +21,8 @@ class App extends Component {
       nowPlaying: { name: "Not Checked", albumArt: "" },
       myToken: token,
       artistNames: [],
-      clicked: null
+      clicked: false,
+      tileContent: null
     };
     this.getHashParams=this.getHashParams.bind(this)
     this.getNowPlaying=this.getNowPlaying.bind(this)

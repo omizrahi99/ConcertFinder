@@ -27,6 +27,7 @@ function ReactCalendar(props) {
         tileDisabled={({ date }) => date.getDay() === 0}
         onClickDay={props.handleClick}
       />
+      <p>Date: {date.toString()}</p>
     </div>
   );
 }
