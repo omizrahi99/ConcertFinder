@@ -18,7 +18,7 @@ class App extends Component {
     }
     this.state = {
       loggedIn: token ? true : false,
-      nowPlaying: { name: "Not Checked", albumArt: "" },
+      nowPlaying: { name: "", albumArt: "" },
       myToken: token,
       artistNames: [],
       artistPhoto: [],
@@ -83,8 +83,8 @@ class App extends Component {
           name: response.item.name,
           albumArt: response.item.album.images[0].url
         },
-      });
-    });
+      })
+    })
   }
 
   async getLikedSongs() {
@@ -120,7 +120,7 @@ class App extends Component {
       <div className='App'>
         <div>
           {!(this.state.loggedIn) ? <a href='http://localhost:8888'> Login to Spotify </a> : <a href='http://localhost:8888'> Log out of Spotify </a>} 
-          <div>Now Playing: {this.state.nowPlaying.name}</div>
+          {this.state.nowPlaying.name=="" ? null : <div>Now Playing: {this.state.nowPlaying.name}</div>}
           <div>
             <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }} />
           </div>
