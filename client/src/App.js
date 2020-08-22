@@ -21,6 +21,7 @@ class App extends Component {
       nowPlaying: { name: "Not Checked", albumArt: "" },
       myToken: token,
       artistNames: [],
+      artistPhoto: [],
       clicked: false,
       tileContent: null
     };
@@ -80,7 +81,7 @@ class App extends Component {
       this.setState({
         nowPlaying: {
           name: response.item.name,
-          albumArt: response.item.album.images[0].url,
+          albumArt: response.item.album.images[0].url
         },
       });
     });
@@ -92,7 +93,6 @@ class App extends Component {
         Authorization: `Bearer ${this.state.myToken}`,
       },
     });
-    console.log(response.data);
   }
 
   async getTopArtists() {
@@ -108,10 +108,9 @@ class App extends Component {
       }
     );
     this.setState({
-      artistNames: [response.data.items[0].name, response.data.items[1].name, response.data.items[2].name]
+      artistNames: [response.data.items[0].name, response.data.items[1].name, response.data.items[2].name],
+      artistPhoto: [response.data.items[0].images[0].url, response.data.items[1].images[0].url, response.data.items[2].images[0].url]
     });
-
-    console.log(response.data);
   }
 
 
@@ -119,22 +118,24 @@ class App extends Component {
     this.getTopArtists();
     return (
       <div className='App'>
-        <a href='http://localhost:8888'> Login to Spotify </a>
-        <div>Now Playing: {this.state.nowPlaying.name}</div>
         <div>
-          <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }} />
-        </div>
-        {this.state.loggedIn && (
+          {!(this.state.loggedIn) ? <a href='http://localhost:8888'> Login to Spotify </a> : <a href='http://localhost:8888'> Log out of Spotify </a>} 
+          <div>Now Playing: {this.state.nowPlaying.name}</div>
+          <div>
+            <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }} />
+          </div>
+          {this.state.loggedIn && (
           <button onClick={() => this.getNowPlaying()}>
             Check Now Playing
           </button>
-        )}
+          )}
+        </div>
         <div>
-          <h1>Concert Finder</h1>
+          <h1 style={{color: 'green', font: '100px'}}>Concert Finder</h1>
           <ReactCalendar topArtist={this.state.artistNames} tileContent={this.state.artistNames} handleClick={this.handleClick} loggedIn={this.state.loggedIn}/>
         </div>
         <div>
-          {this.state.clicked ? <Concert topArtist={this.state.artistNames} /> : null}
+          {this.state.clicked ? <Concert photoArtist1={this.state.artistPhoto[0]} photoArtist2={this.state.artistPhoto[1]} photoArtist3={this.state.artistPhoto[2]} topArtist={this.state.artistNames} /> : null}
         </div>
       </div>
     );

@@ -27,7 +27,7 @@ function ReactCalendar(props) {
         tileDisabled={({ date }) => date.getDay() === 0}
         onClickDay={props.handleClick}
       />
-        {props.loggedIn ? <p>Date: {date.toString()}</p> : null}
+        {props.loggedIn ? <p style={{color:'blue', fontFamily: 'serif' }}>Date: {date.toDateString()}</p> : null}
     </div>
   );
 }
