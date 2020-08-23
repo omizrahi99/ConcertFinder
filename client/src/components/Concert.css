@@ -1,0 +1,9 @@
+.comparisonView {
+	margin-top: 25px;
+	margin-left: 10px;
+	box-shadow: 4px 4px 3px #BBB;
+  border-bottom-right-radius: 10px;
+	width: 100%;
+	display: inline-flex;
+  flex-direction: column;
+}

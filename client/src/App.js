@@ -5,6 +5,7 @@ import SpotifyWebApi from "spotify-web-api-js";
 import axios from "axios";
 import ReactCalendar from "./components/ReactCalendar";
 import Concert from "./components/Concert";
+import Forms from "./components/Forms"
 
 const spotifyApi = new SpotifyWebApi();
 
@@ -23,19 +24,29 @@ class App extends Component {
       artistNames: [],
       artistPhoto: [],
       clicked: false,
-      tileContent: null
+      tileContent: null,
+      location: ""
     };
     this.getHashParams=this.getHashParams.bind(this)
     this.getNowPlaying=this.getNowPlaying.bind(this)
     this.getLikedSongs=this.getLikedSongs.bind(this)
     this.getTopArtists=this.getTopArtists.bind(this)
     this.handleClick=this.handleClick.bind(this)
+    this.handleSubmit=this.handleSubmit.bind(this)
+
   }
 
   handleClick(){
     this.setState({
       clicked: true
     });
+  }
+
+  handleSubmit = (event) => {
+    this.setState({
+      location: event.target.location
+    })
+    event.preventDefault()
   }
 
 
@@ -119,7 +130,7 @@ class App extends Component {
     return (
       <div className='App'>
         <div>
-          {!(this.state.loggedIn) ? <a href='http://localhost:8888'> Login to Spotify </a> : <a href='http://localhost:8888'> Log out of Spotify </a>} 
+          {!(this.state.loggedIn) ? <a href='http://localhost:8888'> Login with Spotify </a> : <a href='http://localhost:8888'> Log out </a>} 
           {this.state.nowPlaying.name=="" ? null : <div>Now Playing: {this.state.nowPlaying.name}</div>}
           <div>
             <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }} />
@@ -131,7 +142,8 @@ class App extends Component {
           )}
         </div>
         <div>
-          <h1 style={{color: 'green', font: '100px'}}>Concert Finder</h1>
+          <h1 style={{color: 'green', font: '100px'}}>Concert Finder {this.state.location}</h1>
+          {this.state.loggedIn ? <Forms location={this.state.location} handleSubmit={this.handleSubmit}/> : null}
           <ReactCalendar topArtist={this.state.artistNames} tileContent={this.state.artistNames} handleClick={this.handleClick} loggedIn={this.state.loggedIn}/>
         </div>
         <div>
