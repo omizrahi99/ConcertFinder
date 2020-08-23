@@ -32,8 +32,6 @@ class App extends Component {
     this.getLikedSongs=this.getLikedSongs.bind(this)
     this.getTopArtists=this.getTopArtists.bind(this)
     this.handleClick=this.handleClick.bind(this)
-    this.handleSubmit=this.handleSubmit.bind(this)
-
   }
 
   handleClick(){
@@ -42,12 +40,6 @@ class App extends Component {
     });
   }
 
-  handleSubmit = (event) => {
-    this.setState({
-      location: event.target.location
-    })
-    event.preventDefault()
-  }
 
 
   // componentDidMount() {
@@ -96,6 +88,15 @@ class App extends Component {
         },
       })
     })
+    .catch(()=>{
+      this.setState({
+        nowPlaying: {
+          name: "",
+          albumArt: null
+        },
+      })
+    }
+    )
   }
 
   async getLikedSongs() {
@@ -131,7 +132,7 @@ class App extends Component {
       <div className='App'>
         <div>
           {!(this.state.loggedIn) ? <a href='http://localhost:8888'> Login with Spotify </a> : <a href='http://localhost:8888'> Log out </a>} 
-          {this.state.nowPlaying.name=="" ? null : <div>Now Playing: {this.state.nowPlaying.name}</div>}
+          {this.state.nowPlaying.name==="" ? null : <div>Now Playing: {this.state.nowPlaying.name}</div>}
           <div>
             <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }} />
           </div>
@@ -143,7 +144,7 @@ class App extends Component {
         </div>
         <div>
           <h1 style={{color: 'green', font: '100px'}}>Concert Finder {this.state.location}</h1>
-          {this.state.loggedIn ? <Forms location={this.state.location} handleSubmit={this.handleSubmit}/> : null}
+          {this.state.loggedIn ? <Forms/> : null}
           <ReactCalendar topArtist={this.state.artistNames} tileContent={this.state.artistNames} handleClick={this.handleClick} loggedIn={this.state.loggedIn}/>
         </div>
         <div>
