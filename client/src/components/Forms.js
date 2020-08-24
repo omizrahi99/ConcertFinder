@@ -13,10 +13,9 @@ class Forms extends React.Component{
 
   handleSubmit = (event) => {
     event.preventDefault()
-    console.log(this.state.location)
     ReactDOM.render(
       <div>
-        {this.state.location ? <h1 style={{fontFamily: 'serif', color: 'black'}}>Concert Location: {this.state.location}</h1> : null}
+        {this.state.location ? <h1 style={{fontFamily: 'serif', color: 'black'}}>Concert Location: {this.state.location.toUpperCase()}</h1> : null}
       </div>,
       document.getElementById('after')
     );
