@@ -26,7 +26,7 @@ class App extends Component {
       clicked: false,
       tileContent: null,
       location: "",
-      concertInfo: {time:["5:00", "6:00", "7:00"], venue:["Hollywood Bowl", "Wells Fargo Center", "Barclay Center"], price:["50$", "60$", "70$"], link:["www.ticketmaster.com", "www.stubhub.com", "www.ticketmaster.com"]}
+      concertInfo: {time:["5:00", "6:00", "7:00"], venue:["HOLLYWOOD BOWL", "WELLS FARGO CENTER", "BARCLAY CENTER"], price:["50$", "60$", "70$"], link:["www.ticketmaster.com", "www.stubhub.com", "www.ticketmaster.com"]}
     };
     this.getHashParams=this.getHashParams.bind(this)
     this.getNowPlaying=this.getNowPlaying.bind(this)
@@ -130,7 +130,7 @@ class App extends Component {
   render() {
     this.getTopArtists();
     return (
-      <div className='App' style={{backgroundColor: 'powderBlue', padding: 0, margin: 0}}>
+      <div className='App'>
         <div>
           {!(this.state.loggedIn) ? <a href='http://localhost:8888'> Login with Spotify </a> : <a href='http://localhost:8888'> Log out </a>} 
           {this.state.nowPlaying.name==="" ? null : <div>Now Playing: {this.state.nowPlaying.name}</div>}
@@ -144,13 +144,13 @@ class App extends Component {
           )}
         </div>
         <div>
-          <h1 style={{color: 'green'}}>Concert Finder {this.state.location}</h1>
+          <h1 style={{color: 'green'}}> Concert Finder</h1>
           {this.state.loggedIn ? <Forms /> : null}
           <ReactCalendar topArtist={this.state.artistNames} tileContent={this.state.artistNames} handleClick={this.handleClick} loggedIn={this.state.loggedIn}/>
         </div>
         <p id={"after"}></p>
         <div>
-          {this.state.clicked ? <Concert photoArtist1={this.state.artistPhoto[0]} photoArtist2={this.state.artistPhoto[1]} photoArtist3={this.state.artistPhoto[2]} topArtist={this.state.artistNames} time={this.state.concertInfo.time} venue={this.state.concertInfo.venue} price={this.state.concertInfo.price} link={this.state.concertInfo.link}/> : null}
+          {this.state.clicked && this.state.loggedIn ? <Concert photoArtist1={this.state.artistPhoto[0]} photoArtist2={this.state.artistPhoto[1]} photoArtist3={this.state.artistPhoto[2]} topArtist={this.state.artistNames} time={this.state.concertInfo.time} venue={this.state.concertInfo.venue} price={this.state.concertInfo.price} link={this.state.concertInfo.link}/> : null}
         </div>
       </div>
     );

@@ -1,13 +1,13 @@
 import React from "react";
 import ReactDOM from 'react-dom';
+import './Forms.css'
 
 
 class Forms extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-      location: "",
-      // submitted: false
+      location: ""
     }
   }
 
@@ -15,7 +15,7 @@ class Forms extends React.Component{
     event.preventDefault()
     ReactDOM.render(
       <div>
-        {this.state.location ? <h1 style={{fontFamily: 'serif', color: 'black'}}>Concert Location: {this.state.location.toUpperCase()}</h1> : null}
+        {this.state.location ? <h1 className='locationStyle'>Concert Location: {this.state.location.toUpperCase()}</h1> : null}
       </div>,
       document.getElementById('after')
     );

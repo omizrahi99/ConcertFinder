@@ -1,0 +1,15 @@
+.locationStyle{
+  font-family: serif;
+  color: black
+}
+
+.buttonStyling{
+  color: white;
+  background-color: green;
+  border: none;
+  padding: 3px;
+  padding-right: 5px;
+  padding-left: 5px; 
+  border-radius: 5px;
+  font-family: serif;
+}
