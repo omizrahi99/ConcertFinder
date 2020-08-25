@@ -26,6 +26,7 @@ class App extends Component {
       clicked: false,
       tileContent: null,
       location: "",
+      searchLocation:"",
       concertInfo: {time:["5:00", "6:00", "7:00"], venue:["HOLLYWOOD BOWL", "WELLS FARGO CENTER", "BARCLAY CENTER"], price:["50$", "60$", "70$"], link:["www.ticketmaster.com", "www.stubhub.com", "www.ticketmaster.com"]}
     };
     this.getHashParams=this.getHashParams.bind(this)
@@ -34,6 +35,8 @@ class App extends Component {
     this.getTopArtists=this.getTopArtists.bind(this)
     this.handleClick=this.handleClick.bind(this)
   }
+
+
 
   handleClick(){
     this.setState({
@@ -144,7 +147,7 @@ class App extends Component {
           )}
         </div>
         <div>
-          <h1 style={{color: 'green'}}> Concert Finder</h1>
+          <h1 style={{color: 'green'}}> Concert Finder </h1>
           {this.state.loggedIn ? <Forms /> : null}
           <ReactCalendar topArtist={this.state.artistNames} tileContent={this.state.artistNames} handleClick={this.handleClick} loggedIn={this.state.loggedIn}/>
         </div>
