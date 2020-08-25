@@ -19,6 +19,6 @@
 
 .fontStyle { 
 	font-size: 40px; 
-	color: green;
-	font-style: oblique;
+	color: rgb(243, 13, 39);
+	font-style: '-apple-family';
 }

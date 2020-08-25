@@ -16,4 +16,3 @@ function ConcertCard(props) {
 }
 
 export default ConcertCard;
-

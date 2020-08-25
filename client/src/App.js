@@ -146,10 +146,10 @@ class App extends Component {
           )}
         </div>
         <div>
-          <h1 style={{color: 'green', fontSize: '70px'}}> Concert Finder </h1>
-          {this.state.loggedIn ? <Forms /> : null}
+          <h1 style={{color: 'green', fontSize: '70px', fontFamily: '-apple-family'}}> Concert Finder </h1>
           <ReactCalendar topArtist={this.state.artistNames} tileContent={this.state.artistNames} handleClick={this.handleClick} loggedIn={this.state.loggedIn}/>
         </div>
+        {this.state.loggedIn ? <Forms style={{fontFamily: '-apple-family'}}/> : null}
         <p id={"after"}></p>
         <div>
           {this.state.clicked && this.state.loggedIn ? <Concert photoArtist1={this.state.artistPhoto[0]} photoArtist2={this.state.artistPhoto[1]} photoArtist3={this.state.artistPhoto[2]} topArtist={this.state.artistNames} time={this.state.concertInfo.time} venue={this.state.concertInfo.venue} price={this.state.concertInfo.price} link={this.state.concertInfo.link}/> : null}
