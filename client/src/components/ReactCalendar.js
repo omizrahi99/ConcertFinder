@@ -15,7 +15,7 @@ function ReactCalendar(props) {
       <Calendar
         onChange={onChange}
         value={date}
-        className='calendar'
+        className='react-calendar'
         tileContent={props.tileContent}
         tileDisabled={({ date }) => date.getDay() === 0}
         onClickDay={props.handleClick}

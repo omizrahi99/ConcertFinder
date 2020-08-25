@@ -1,6 +1,6 @@
 .App {
   text-align: center;
-  background-color: powderblue;
+  background-color: pow;
 }
 
 .App-logo {
@@ -59,4 +59,13 @@ button {
 .fromleft{
   margin-left: 0;
   padding-left: 0;
+}
+
+.react-calendar {
+  width: 350px;
+  max-width: 100%;
+  background: black;
+  border: 1px solid #a0a096;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.500em;
 }

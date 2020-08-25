@@ -7,7 +7,7 @@ class Forms extends React.Component{
   constructor(props){
     super(props)
     this.state = {
-      searchLocation: ""
+      location: ""
     }
   }
 
@@ -15,7 +15,7 @@ class Forms extends React.Component{
     event.preventDefault()
     ReactDOM.render(
       <div>
-        {this.state.searchLocation ? <h1 className='locationStyle'>Concert Location: {this.state.searchLocation.toUpperCase()}</h1> : null}
+        {this.state.location ? <h1 className>Concert Location: {this.state.location.toUpperCase()}</h1> : null}
       </div>,
       document.getElementById('after')
     );
@@ -30,15 +30,15 @@ class Forms extends React.Component{
   }
   
   render(){
-    const {searchLocation} = this.state
+    const {location} = this.state
     const styling = {
-      color: 'white', backgroundColor: 'green', border: 'none', padding: '3px', paddingRight: '5px', paddingLeft: '5px', borderRadius: '5px', fontFamily: 'serif'
+      color: 'white', backgroundColor: 'green', border: 'none', padding: '3px', paddingRight: '5px', paddingLeft: '5px', borderRadius: '5px', fontFamily: 'serif', fontSize: '27px'
     }
     return (
       <form onSubmit={this.handleSubmit}>
         <div>
-          <label style={{color: 'blue', fontFamily: 'serif'}}>Location: </label>
-            <input type='text' value={searchLocation} name="searchLocation" onChange={this.changeHandler} placeholder="Enter Location"/>
+          <label style={{color: 'blue', fontFamily: 'serif', fontSize: '35px'}}>Location: </label>
+            <input style={{height: '30px', width: '200px', fontSize: '20px'}} type='text' value={location} name="location" onChange={this.changeHandler} placeholder="Enter Location"/>
           <button style={styling} type='submit'>Search</button>
         </div>
       </form>
