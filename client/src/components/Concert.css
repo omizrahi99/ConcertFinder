@@ -1,0 +1,24 @@
+.comparisonView {
+	margin-top: 25px;
+	margin-left: 10px;
+	box-shadow: 4px 4px 3px #BBB;
+  border-bottom-right-radius: 10px;
+	width: 100%;
+	display: inline-flex;
+  flex-direction: column;
+}
+
+
+.wrapper {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: space-between;
+	padding: 20px;
+}
+
+
+.fontStyle { 
+	font-size: 40px; 
+	color: rgb(243, 13, 39);
+	font-style: '-apple-family';
+}

@@ -1,5 +1,6 @@
 .App {
   text-align: center;
+  background-color: pow;
 }
 
 .App-logo {
@@ -40,4 +41,31 @@
 div,
 button {
   margin: 10px;
+}
+
+
+.card {
+	border-style: solid;
+	border-color: #bbb;
+	border-width: 1px;
+	border-radius: 3px;
+	box-shadow: 0.1px 0.1px 5px #bbb;
+	width: 931px;
+	margin: 10px 0px 10px 0px;
+	background-color: white;
+}
+
+
+.fromleft{
+  margin-left: 0;
+  padding-left: 0;
+}
+
+.react-calendar {
+  width: 350px;
+  max-width: 100%;
+  background: black;
+  border: 1px solid #a0a096;
+  font-family: Arial, Helvetica, sans-serif;
+  line-height: 1.500em;
 }

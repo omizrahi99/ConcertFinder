@@ -137,3 +137,20 @@
 .react-calendar--selectRange .react-calendar__tile--hover {
   background-color: #e6e6e6;
 }
+
+.card {
+	border-style: solid;
+	border-color: #bbb;
+	border-width: 1px;
+	border-radius: 3px;
+	box-shadow: 0.1px 0.1px 5px #bbb;
+	width: 931px;
+	margin: 10px 0px 10px 0px;
+	background-color: white;
+}
+
+
+.dateStyle{
+  color:blue;
+  font-family: '-apple-family';
+}

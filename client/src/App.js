@@ -4,6 +4,8 @@ import "./App.css";
 import SpotifyWebApi from "spotify-web-api-js";
 import axios from "axios";
 import ReactCalendar from "./components/ReactCalendar";
+import Concert from "./components/Concert";
+
 const spotifyApi = new SpotifyWebApi();
 
 class App extends Component {
@@ -16,10 +18,55 @@ class App extends Component {
     }
     this.state = {
       loggedIn: token ? true : false,
-      nowPlaying: { name: "Not Checked", albumArt: "" },
+      nowPlaying: { name: "", albumArt: "" },
       myToken: token,
+      artistNames: [],
+      artistPhoto: [],
+      clicked: false,
+      tileContent: null,
+      location: "",
+      concertInfo: {time:["5:00", "6:00", "7:00"], venue:["HOLLYWOOD BOWL", "WELLS FARGO CENTER", "BARCLAY CENTER"], price:["50$", "60$", "70$"], link:["www.ticketmaster.com", "www.stubhub.com", "www.ticketmaster.com"]}
     };
+    this.getHashParams=this.getHashParams.bind(this)
+    this.getNowPlaying=this.getNowPlaying.bind(this)
+    this.getLikedSongs=this.getLikedSongs.bind(this)
+    this.getTopArtists=this.getTopArtists.bind(this)
+    this.handleClick=this.handleClick.bind(this)
   }
+
+
+
+  handleClick(){
+    this.setState({
+      clicked: true
+    });
+  }
+
+
+
+  // componentDidMount() {
+  //   fetch("https://api.example.com/items")
+  //     .then(res => res.json())
+  //     .then(
+  //       (result) => {
+  //         this.setState({
+  //           isLoaded: true,
+  //           items: result.items
+  //         });
+  //       },
+  //       (error) => {
+  //         this.setState({
+  //           isLoaded: true,
+  //           error
+  //         });
+  //       }
+  //     )
+  // }
+
+
+
+ 
+
 
   getHashParams() {
     var hashParams = {};
@@ -39,10 +86,19 @@ class App extends Component {
       this.setState({
         nowPlaying: {
           name: response.item.name,
-          albumArt: response.item.album.images[0].url,
+          albumArt: response.item.album.images[0].url
         },
-      });
-    });
+      })
+    })
+    .catch(()=>{
+      this.setState({
+        nowPlaying: {
+          name: "",
+          albumArt: null
+        },
+      })
+    }
+    )
   }
 
   async getLikedSongs() {
@@ -51,7 +107,6 @@ class App extends Component {
         Authorization: `Bearer ${this.state.myToken}`,
       },
     });
-    console.log(response.data);
   }
 
   async getTopArtists() {
@@ -66,24 +121,37 @@ class App extends Component {
         },
       }
     );
-    console.log(response.data);
+    this.setState({
+      artistNames: [response.data.items[0].name, response.data.items[1].name, response.data.items[2].name],
+      artistPhoto: [response.data.items[0].images[0].url, response.data.items[1].images[0].url, response.data.items[2].images[0].url]
+    });
   }
+
 
   render() {
     this.getTopArtists();
     return (
-      <div className='App'>
-        <a href='http://localhost:8888'> Login to Spotify </a>
-        <div>Now Playing: {this.state.nowPlaying.name}</div>
+      <div className='App' style={{backgroundColor: 'yellow'}}>
         <div>
-          <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }} />
-        </div>
-        {this.state.loggedIn && (
+          {!(this.state.loggedIn) ? <a href='http://localhost:8888'> Login with Spotify </a> : <a href='http://localhost:8888'> Log out </a>} 
+          {this.state.nowPlaying.name==="" ? null : <div>Now Playing: {this.state.nowPlaying.name}</div>}
+          <div>
+            <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }} />
+          </div>
+          {this.state.loggedIn && (
           <button onClick={() => this.getNowPlaying()}>
             Check Now Playing
           </button>
-        )}
-        <ReactCalendar />
+          )}
+        </div>
+        <div>
+          <h1 style={{color: 'green', fontSize: '70px', fontFamily: '-apple-family'}}> Concert Finder </h1>
+          <ReactCalendar topArtist={this.state.artistNames} tileContent={this.state.artistNames} handleClick={this.handleClick} loggedIn={this.state.loggedIn}/>
+        </div>
+        <p id={"after"}></p>
+        <div>
+          {this.state.loggedIn ? <Concert photoArtist1={this.state.artistPhoto[0]} photoArtist2={this.state.artistPhoto[1]} photoArtist3={this.state.artistPhoto[2]} topArtist={this.state.artistNames} time={this.state.concertInfo.time} venue={this.state.concertInfo.venue} price={this.state.concertInfo.price} link={this.state.concertInfo.link} clicked={this.state.clicked}/> : null}
+        </div>
       </div>
     );
   }
