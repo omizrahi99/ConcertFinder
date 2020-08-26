@@ -5,7 +5,6 @@ import SpotifyWebApi from "spotify-web-api-js";
 import axios from "axios";
 import ReactCalendar from "./components/ReactCalendar";
 import Concert from "./components/Concert";
-import Forms from "./components/Forms"
 
 const spotifyApi = new SpotifyWebApi();
 
@@ -149,10 +148,9 @@ class App extends Component {
           <h1 style={{color: 'green', fontSize: '70px', fontFamily: '-apple-family'}}> Concert Finder </h1>
           <ReactCalendar topArtist={this.state.artistNames} tileContent={this.state.artistNames} handleClick={this.handleClick} loggedIn={this.state.loggedIn}/>
         </div>
-        {this.state.loggedIn ? <Forms style={{fontFamily: '-apple-family'}}/> : null}
         <p id={"after"}></p>
         <div>
-          {this.state.clicked && this.state.loggedIn ? <Concert photoArtist1={this.state.artistPhoto[0]} photoArtist2={this.state.artistPhoto[1]} photoArtist3={this.state.artistPhoto[2]} topArtist={this.state.artistNames} time={this.state.concertInfo.time} venue={this.state.concertInfo.venue} price={this.state.concertInfo.price} link={this.state.concertInfo.link}/> : null}
+          {this.state.loggedIn ? <Concert photoArtist1={this.state.artistPhoto[0]} photoArtist2={this.state.artistPhoto[1]} photoArtist3={this.state.artistPhoto[2]} topArtist={this.state.artistNames} time={this.state.concertInfo.time} venue={this.state.concertInfo.venue} price={this.state.concertInfo.price} link={this.state.concertInfo.link} clicked={this.state.clicked}/> : null}
         </div>
       </div>
     );
