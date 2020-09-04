@@ -4,7 +4,7 @@ import "./App.css";
 import SpotifyWebApi from "spotify-web-api-js";
 import axios from "axios";
 import ReactCalendar from "./components/ReactCalendar";
-import Concert from "./components/Concert";
+import Concert from "./components/Concert"
 
 const spotifyApi = new SpotifyWebApi();
 
@@ -18,6 +18,9 @@ class App extends Component {
     }
     this.state = {
       loggedIn: token ? true : false,
+      artist_id1: null,
+      artist_id2: null,
+      artist_id3: null,
       nowPlaying: { name: "", albumArt: "" },
       myToken: token,
       artistNames: [],
@@ -35,37 +38,13 @@ class App extends Component {
   }
 
 
-
   handleClick(){
     this.setState({
       clicked: true
     });
   }
 
-
-
-  // componentDidMount() {
-  //   fetch("https://api.example.com/items")
-  //     .then(res => res.json())
-  //     .then(
-  //       (result) => {
-  //         this.setState({
-  //           isLoaded: true,
-  //           items: result.items
-  //         });
-  //       },
-  //       (error) => {
-  //         this.setState({
-  //           isLoaded: true,
-  //           error
-  //         });
-  //       }
-  //     )
-  // }
-
-
-
- 
+  
 
 
   getHashParams() {
@@ -127,6 +106,52 @@ class App extends Component {
     });
   }
 
+  componentDidMount() {
+    axios.get(`https://api.songkick.com/api/3.0/search/artists.json?apikey=ARBkhoegD1ZL4ned&query=${this.state.artistNames[0]}`)
+      .then(response => {
+          this.setState({
+            artist_id1: response.data.resultsPage.results.artist[0].id
+          })
+          console.log(response)
+        })
+        .catch(error => {
+          console.log(error)
+        }
+      )
+      axios.get(`https://api.songkick.com/api/3.0/search/artists.json?apikey=ARBkhoegD1ZL4ned&query=${this.state.artistNames[1]}`)
+      .then(response => {
+          this.setState({
+            artist_id2: response.data.resultsPage.results.artist[0].id
+          })
+        })
+        .catch(error => {
+          console.log(error)
+        }
+      )
+      axios.get(`https://api.songkick.com/api/3.0/search/artists.json?apikey=ARBkhoegD1ZL4ned&query=${this.state.artistNames[2]}`)
+      .then(response => {
+          this.setState({
+            artist_id3: response.data.resultsPage.results.artist[0].id
+          })
+        })
+        .catch(error => {
+          console.log(error)
+        }
+      )
+      axios.get(`https://api.songkick.com/api/3.0/artists/${this.state.artist_id1}/calendar.json?apikey=ARBkhoegD1ZL4ned`)
+      .then(response => {
+          // this.setState({
+          //   artist_id1: response.data.resultsPage.results.artist[0].id
+          // })
+          console.log(response)
+        })
+        .catch(error => {
+          console.log(error)
+        }
+      )
+
+  }
+
 
   render() {
     this.getTopArtists();
@@ -134,7 +159,7 @@ class App extends Component {
       <div className='App' style={{backgroundColor: 'yellow'}}>
         <div>
           {!(this.state.loggedIn) ? <a href='http://localhost:8888'> Login with Spotify </a> : <a href='http://localhost:8888'> Log out </a>} 
-          {this.state.nowPlaying.name==="" ? null : <div>Now Playing: {this.state.nowPlaying.name}</div>}
+          {this.state.nowPlaying.name==="" ? null : <div>Now Playing:{this.state.nowPlaying.name}</div>}
           <div>
             <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }} />
           </div>
