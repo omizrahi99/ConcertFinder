@@ -22,6 +22,7 @@ class App extends Component {
       favoriteArtists: [],
       favoriteArtistIDs: new Map(),
       concerts: new Map(),
+      datesToConcerts: new Map(),
       clicked: false,
       tileContent: null,
       location: "",
@@ -38,7 +39,6 @@ class App extends Component {
     };
     this.getHashParams = this.getHashParams.bind(this);
     this.getNowPlaying = this.getNowPlaying.bind(this);
-    this.getLikedSongs = this.getLikedSongs.bind(this);
     this.getTopArtists = this.getTopArtists.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
@@ -47,7 +47,9 @@ class App extends Component {
     await this.getTopArtists();
     await this.getArtistIDs();
     await this.getConcerts();
-    console.log(this.state.concerts);
+    this.setState({ datesToConcerts: this.getConcertDates() }, () => {
+      console.log(this.state.datesToConcerts);
+    });
   }
 
   handleClick() {
@@ -130,14 +132,6 @@ class App extends Component {
     this.setState({ concerts: map1 });
   };
 
-  async getLikedSongs() {
-    const response = await axios.get("https://api.spotify.com/v1/me/tracks", {
-      headers: {
-        Authorization: `Bearer ${this.state.myToken}`,
-      },
-    });
-  }
-
   async getTopArtists() {
     const response = await axios.get(
       "https://api.spotify.com/v1/me/top/artists",
@@ -152,6 +146,25 @@ class App extends Component {
     );
     this.setState({ favoriteArtists: response.data.items });
   }
+
+  getConcertDates = () => {
+    let datesToConcerts = new Map();
+    this.state.concerts.forEach((value, key) => {
+      if (value) {
+        value.forEach((concert) => {
+          if (datesToConcerts.has(concert.start.date)) {
+            datesToConcerts.set(concert.start.date, [
+              ...datesToConcerts.get(concert.start.date),
+              concert,
+            ]);
+          } else {
+            datesToConcerts.set(concert.start.date, [concert]);
+          }
+        });
+      }
+    });
+    return datesToConcerts;
+  };
 
   render() {
     return (

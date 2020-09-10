@@ -9,7 +9,6 @@ function ReactCalendar(props) {
     setDate(date);
   }
 
-
   return (
     <div>
       <Calendar
@@ -17,10 +16,12 @@ function ReactCalendar(props) {
         value={date}
         className='react-calendar'
         tileContent={props.tileContent}
-        tileDisabled={({ date }) => date.getDay() === 0}
+        tileDisabled={({ date }) => date.getDay() === 4}
         onClickDay={props.handleClick}
       />
-        {props.loggedIn ? <h1 className='dateStyle'>Date: {date.toDateString()}</h1> : null}
+      {props.loggedIn ? (
+        <h1 className='dateStyle'>Date: {date.toDateString()}</h1>
+      ) : null}
     </div>
   );
 }
