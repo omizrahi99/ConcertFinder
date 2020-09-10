@@ -5,7 +5,6 @@ import SpotifyWebApi from "spotify-web-api-js";
 import axios from "axios";
 import ReactCalendar from "./components/ReactCalendar";
 import Concert from "./components/Concert";
-
 const spotifyApi = new SpotifyWebApi();
 
 class App extends Component {
@@ -20,53 +19,46 @@ class App extends Component {
       loggedIn: token ? true : false,
       nowPlaying: { name: "", albumArt: "" },
       myToken: token,
-      artistNames: [],
-      artistPhoto: [],
+      favoriteArtists: [],
+      favoriteArtistIDs: new Map(),
+      concerts: new Map(),
       clicked: false,
       tileContent: null,
       location: "",
-      concertInfo: {time:["5:00", "6:00", "7:00"], venue:["HOLLYWOOD BOWL", "WELLS FARGO CENTER", "BARCLAY CENTER"], price:["50$", "60$", "70$"], link:["www.ticketmaster.com", "www.stubhub.com", "www.ticketmaster.com"]}
+      concertInfo: {
+        time: ["5:00", "6:00", "7:00"],
+        venue: ["HOLLYWOOD BOWL", "WELLS FARGO CENTER", "BARCLAY CENTER"],
+        price: ["50$", "60$", "70$"],
+        link: [
+          "www.ticketmaster.com",
+          "www.stubhub.com",
+          "www.ticketmaster.com",
+        ],
+      },
     };
-    this.getHashParams=this.getHashParams.bind(this)
-    this.getNowPlaying=this.getNowPlaying.bind(this)
-    this.getLikedSongs=this.getLikedSongs.bind(this)
-    this.getTopArtists=this.getTopArtists.bind(this)
-    this.handleClick=this.handleClick.bind(this)
+    this.getHashParams = this.getHashParams.bind(this);
+    this.getNowPlaying = this.getNowPlaying.bind(this);
+    this.getLikedSongs = this.getLikedSongs.bind(this);
+    this.getTopArtists = this.getTopArtists.bind(this);
+    this.handleClick = this.handleClick.bind(this);
   }
 
+  async componentDidMount() {
+    await this.getTopArtists();
+    await this.getArtistIDs();
+    await this.getConcerts();
+    console.log(this.state.concerts);
+  }
 
-
-  handleClick(){
+  handleClick() {
     this.setState({
-      clicked: true
+      clicked: true,
     });
   }
 
-
-
-  // componentDidMount() {
-  //   fetch("https://api.example.com/items")
-  //     .then(res => res.json())
-  //     .then(
-  //       (result) => {
-  //         this.setState({
-  //           isLoaded: true,
-  //           items: result.items
-  //         });
-  //       },
-  //       (error) => {
-  //         this.setState({
-  //           isLoaded: true,
-  //           error
-  //         });
-  //       }
-  //     )
-  // }
-
-
-
- 
-
+  URLify = (string) => {
+    return string.trim().replace(/\s/g, "%20");
+  };
 
   getHashParams() {
     var hashParams = {};
@@ -82,24 +74,61 @@ class App extends Component {
   }
 
   getNowPlaying() {
-    spotifyApi.getMyCurrentPlaybackState().then((response) => {
-      this.setState({
-        nowPlaying: {
-          name: response.item.name,
-          albumArt: response.item.album.images[0].url
-        },
+    spotifyApi
+      .getMyCurrentPlaybackState()
+      .then((response) => {
+        this.setState({
+          nowPlaying: {
+            name: response.item.name,
+            albumArt: response.item.album.images[0].url,
+          },
+        });
       })
-    })
-    .catch(()=>{
-      this.setState({
-        nowPlaying: {
-          name: "",
-          albumArt: null
-        },
-      })
-    }
-    )
+      .catch(() => {
+        this.setState({
+          nowPlaying: {
+            name: "",
+            albumArt: null,
+          },
+        });
+      });
   }
+
+  getArtistIDs = async () => {
+    const table = new Map();
+    await Promise.all(
+      this.state.favoriteArtists.map(async (artist) => {
+        const response = await axios.get(
+          `https://api.songkick.com/api/3.0/search/artists.json?apikey=${
+            process.env.REACT_APP_API_KEY
+          }&query=${this.URLify(artist.name)}`
+        );
+
+        if (response.data.resultsPage.results.artist) {
+          table.set(
+            artist.name,
+            response.data.resultsPage.results.artist[0].id.toString()
+          );
+        }
+      })
+    );
+    this.setState({ favoriteArtistIDs: table });
+  };
+
+  getConcerts = async () => {
+    let map1 = new Map();
+    await Promise.all(
+      this.state.favoriteArtists.map(async (artist) => {
+        const response = await axios.get(
+          `https://api.songkick.com/api/3.0/artists/${this.state.favoriteArtistIDs.get(
+            artist.name
+          )}/calendar.json?apikey=${process.env.REACT_APP_API_KEY}`
+        );
+        map1.set(artist.name, response.data.resultsPage.results.event);
+      })
+    );
+    this.setState({ concerts: map1 });
+  };
 
   async getLikedSongs() {
     const response = await axios.get("https://api.spotify.com/v1/me/tracks", {
@@ -121,37 +150,62 @@ class App extends Component {
         },
       }
     );
-    this.setState({
-      artistNames: [response.data.items[0].name, response.data.items[1].name, response.data.items[2].name],
-      artistPhoto: [response.data.items[0].images[0].url, response.data.items[1].images[0].url, response.data.items[2].images[0].url]
-    });
+    this.setState({ favoriteArtists: response.data.items });
   }
 
-
   render() {
-    this.getTopArtists();
     return (
-      <div className='App' style={{backgroundColor: 'yellow'}}>
+      <div className='App' style={{ backgroundColor: "" }}>
         <div>
-          {!(this.state.loggedIn) ? <a href='http://localhost:8888'> Login with Spotify </a> : <a href='http://localhost:8888'> Log out </a>} 
-          {this.state.nowPlaying.name==="" ? null : <div>Now Playing: {this.state.nowPlaying.name}</div>}
+          {!this.state.loggedIn ? (
+            <a href='http://localhost:8888'> Login with Spotify </a>
+          ) : (
+            <a href='http://localhost:8888'> Log out </a>
+          )}
+          {this.state.nowPlaying.name === "" ? null : (
+            <div>Now Playing: {this.state.nowPlaying.name}</div>
+          )}
           <div>
             <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }} />
           </div>
           {this.state.loggedIn && (
-          <button onClick={() => this.getNowPlaying()}>
-            Check Now Playing
-          </button>
+            <button onClick={() => this.getNowPlaying()}>
+              Check Now Playing
+            </button>
           )}
         </div>
         <div>
-          <h1 style={{color: 'green', fontSize: '70px', fontFamily: '-apple-family'}}> Concert Finder </h1>
-          <ReactCalendar topArtist={this.state.artistNames} tileContent={this.state.artistNames} handleClick={this.handleClick} loggedIn={this.state.loggedIn}/>
+          <h1
+            style={{
+              color: "blue",
+              fontSize: "70px",
+              fontFamily: "Arial",
+            }}
+          >
+            {" "}
+            Concert Finder{" "}
+          </h1>
+          <ReactCalendar
+            handleClick={this.handleClick}
+            loggedIn={this.state.loggedIn}
+          />
         </div>
-        <p id={"after"}></p>
+        {/* <p id={"after"}></p>
         <div>
-          {this.state.loggedIn ? <Concert photoArtist1={this.state.artistPhoto[0]} photoArtist2={this.state.artistPhoto[1]} photoArtist3={this.state.artistPhoto[2]} topArtist={this.state.artistNames} time={this.state.concertInfo.time} venue={this.state.concertInfo.venue} price={this.state.concertInfo.price} link={this.state.concertInfo.link} clicked={this.state.clicked}/> : null}
-        </div>
+          {this.state.loggedIn ? (
+            <Concert
+              photoArtist1={this.state.artistPhoto[0]}
+              photoArtist2={this.state.artistPhoto[1]}
+              photoArtist3={this.state.artistPhoto[2]}
+              topArtist={this.state.artistNames}
+              time={this.state.concertInfo.time}
+              venue={this.state.concertInfo.venue}
+              price={this.state.concertInfo.price}
+              link={this.state.concertInfo.link}
+              clicked={this.state.clicked}
+            />
+          ) : null}
+        </div> */}
       </div>
     );
   }
