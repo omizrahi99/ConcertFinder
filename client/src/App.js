@@ -1,4 +1,5 @@
 import React, { Component } from "react";
+import moment from "moment";
 import logo from "./logo.svg";
 import "./App.css";
 import SpotifyWebApi from "spotify-web-api-js";
@@ -47,9 +48,10 @@ class App extends Component {
     await this.getTopArtists();
     await this.getArtistIDs();
     await this.getConcerts();
-    this.setState({ datesToConcerts: this.getConcertDates() }, () => {
-      console.log(this.state.datesToConcerts);
-    });
+    this.setState(
+      { datesToConcerts: this.removeDuplicatesAndSort(this.getConcertDates()) },
+      () => console.log(this.state.datesToConcerts)
+    );
   }
 
   handleClick() {
@@ -149,10 +151,37 @@ class App extends Component {
 
   getConcertDates = () => {
     let datesToConcerts = new Map();
-    this.state.concerts.forEach((value, key) => {
+    this.state.concerts.forEach((value) => {
       if (value) {
         value.forEach((concert) => {
-          if (datesToConcerts.has(concert.start.date)) {
+          // if it's a multi-day festival
+          // then get the dates and add the dates to map with festival as values
+          if (concert.end && concert.start.date !== concert.end.date) {
+            const allDates = this.getDates(
+              concert.start.date,
+              concert.end.date
+            );
+            console.log(allDates);
+            allDates.forEach((date) => {
+              // if date is already in map then just add the concert to the value array
+              if (
+                datesToConcerts.has(date) &&
+                !datesToConcerts.get(date).includes(concert)
+              ) {
+                datesToConcerts.set(date, [
+                  ...datesToConcerts.get(date),
+                  concert,
+                ]);
+                // else, make a new key-value pair
+              } else {
+                // console.log(date);
+                // console.log(concert);
+                datesToConcerts.set(date, [concert]);
+              }
+            });
+            // else if its a single day concert/festival and the date is already in the map
+            // then just add the concert to the value array
+          } else if (datesToConcerts.has(concert.start.date)) {
             datesToConcerts.set(concert.start.date, [
               ...datesToConcerts.get(concert.start.date),
               concert,
@@ -164,6 +193,38 @@ class App extends Component {
       }
     });
     return datesToConcerts;
+  };
+
+  getDates = (startDate, stopDate) => {
+    var dateArray = [];
+    var currentDate = moment(startDate);
+    var stopDate = moment(stopDate);
+    while (currentDate <= stopDate) {
+      dateArray.push(moment(currentDate).format("YYYY-MM-DD"));
+      currentDate = moment(currentDate).add(1, "days");
+    }
+    return dateArray;
+  };
+
+  removeDuplicatesBy = (keyFn, array) => {
+    var mySet = new Set();
+    return array.filter(function (x) {
+      var key = keyFn(x),
+        isNew = !mySet.has(key);
+      if (isNew) mySet.add(key);
+      return isNew;
+    });
+  };
+
+  removeDuplicatesAndSort = (table) => {
+    let b = new Map();
+    for (let [key, value] of table) {
+      b.set(
+        key,
+        this.removeDuplicatesBy((x) => x.id, table.get(key))
+      );
+    }
+    return new Map([...b.entries()].sort());
   };
 
   render() {
