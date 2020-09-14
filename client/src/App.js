@@ -48,10 +48,9 @@ class App extends Component {
     await this.getTopArtists();
     await this.getArtistIDs();
     await this.getConcerts();
-    this.setState(
-      { datesToConcerts: this.removeDuplicatesAndSort(this.getConcertDates()) },
-      () => console.log(this.state.datesToConcerts)
-    );
+    this.setState({
+      datesToConcerts: this.removeDuplicatesAndSort(this.getConcertDates()),
+    });
   }
 
   handleClick() {
@@ -161,7 +160,6 @@ class App extends Component {
               concert.start.date,
               concert.end.date
             );
-            console.log(allDates);
             allDates.forEach((date) => {
               // if date is already in map then just add the concert to the value array
               if (
@@ -260,6 +258,7 @@ class App extends Component {
             Concert Finder{" "}
           </h1>
           <ReactCalendar
+            datesToConcerts={this.state.datesToConcerts}
             handleClick={this.handleClick}
             loggedIn={this.state.loggedIn}
           />
