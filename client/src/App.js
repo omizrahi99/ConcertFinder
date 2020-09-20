@@ -6,6 +6,7 @@ import SpotifyWebApi from "spotify-web-api-js";
 import axios from "axios";
 import ReactCalendar from "./components/ReactCalendar";
 import Concert from "./components/Concert";
+import ConcertList from "./components/ConcertList";
 const spotifyApi = new SpotifyWebApi();
 
 class App extends Component {
@@ -24,6 +25,8 @@ class App extends Component {
       favoriteArtistIDs: new Map(),
       concerts: new Map(),
       datesToConcerts: new Map(),
+      currentConcerts: [],
+      ready: false,
       clicked: false,
       tileContent: null,
       location: "",
@@ -43,14 +46,17 @@ class App extends Component {
     this.getTopArtists = this.getTopArtists.bind(this);
     this.handleClick = this.handleClick.bind(this);
   }
-
   async componentDidMount() {
     await this.getTopArtists();
     await this.getArtistIDs();
     await this.getConcerts();
-    this.setState({
-      datesToConcerts: this.removeDuplicatesAndSort(this.getConcertDates()),
-    });
+    this.setState(
+      {
+        datesToConcerts: this.removeDuplicatesAndSort(this.getConcertDates()),
+      },
+      () => console.log(this.state.datesToConcerts)
+    );
+    this.setState({ ready: true });
   }
 
   handleClick() {
@@ -214,6 +220,34 @@ class App extends Component {
     });
   };
 
+  dateToObject = (dateString) => {
+    const dateArr = dateString.split("-");
+    const year = dateArr[0];
+    const month = dateArr[1] - 1;
+    const day = dateArr[2];
+    return new Date(year, month, day);
+  };
+
+  objectToDate = (dateString) => {
+    const year = dateString.getFullYear();
+    const month = dateString.getMonth();
+    let monthString = "";
+    if (month <= 8) {
+      monthString = `0${month + 1}`;
+    } else {
+      monthString = `${month + 1}`;
+    }
+    const day = dateString.getDate();
+    let dayString = "";
+    if (day <= 9) {
+      dayString = `0${day}`;
+    } else {
+      dayString = `${day}`;
+    }
+    const date = `${year}-${monthString}-${dayString}`;
+    return date;
+  };
+
   removeDuplicatesAndSort = (table) => {
     let b = new Map();
     for (let [key, value] of table) {
@@ -223,6 +257,11 @@ class App extends Component {
       );
     }
     return new Map([...b.entries()].sort());
+  };
+
+  doStuffWithDate = async (date) => {
+    const x = await this.state.datesToConcerts.get(this.objectToDate(date));
+    this.setState({ currentConcerts: x });
   };
 
   render() {
@@ -257,11 +296,24 @@ class App extends Component {
             {" "}
             Concert Finder{" "}
           </h1>
-          <ReactCalendar
-            datesToConcerts={this.state.datesToConcerts}
-            handleClick={this.handleClick}
-            loggedIn={this.state.loggedIn}
-          />
+          {this.state.ready == true ? (
+            <ReactCalendar
+              datesToConcerts={this.state.datesToConcerts}
+              handleClick={this.handleClick}
+              loggedIn={this.state.loggedIn}
+              myCallback={this.doStuffWithDate}
+            />
+          ) : (
+            ""
+          )}
+          {this.state.ready == true ? (
+            <ConcertList
+              concerts={this.state.currentConcerts}
+              artistToConcerts={this.state.concerts}
+            />
+          ) : (
+            ""
+          )}
         </div>
         {/* <p id={"after"}></p>
         <div>
