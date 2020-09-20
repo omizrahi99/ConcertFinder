@@ -1,18 +1,30 @@
-import React from "react";
+import React, { Component } from "react";
 
+class ConcertCard extends Component {
+  constructor(props) {
+    super();
+  }
 
-function ConcertCard(props) {
-
-  return (
-        <div class="card" style={{backgroundColor: 'aqua'}}>
-          <p>{props.topArtist}: </p>
-          <img src={props.photoArtist} style={{ height: 150 }} />
-          <p>Time: {props.time}</p>
-          <p>Venue: {props.venue}</p>
-          <p>Price: {props.price}</p>
-          <a href={props.link}>More Info Here</a>
-        </div> 
-  );
+  render() {
+    return (
+      <div class='card concert-card'>
+        <div class='card-header'>{this.props.concert.displayName}</div>
+        <div class='card-body'>
+          <h5 class='card-title'>
+            {this.props.concert.performance.map((event) => {
+              if (this.props.artistToConcerts.has(event.displayName)) {
+                return <p key={event.displayName}>{event.displayName}</p>;
+              }
+            })}
+          </h5>
+          <p class='card-text'>{this.props.concert.location.city}</p>
+          <a href='#' class='btn btn-primary'>
+            Go somewhere
+          </a>
+        </div>
+      </div>
+    );
+  }
 }
 
 export default ConcertCard;

@@ -306,6 +306,8 @@ class App extends Component {
           ) : (
             ""
           )}
+        </div>
+        <div className='concert-list-wrapper'>
           {this.state.ready == true ? (
             <ConcertList
               concerts={this.state.currentConcerts}
@@ -315,6 +317,7 @@ class App extends Component {
             ""
           )}
         </div>
+
         {/* <p id={"after"}></p>
         <div>
           {this.state.loggedIn ? (

@@ -3,6 +3,10 @@
   background-color: pow;
 }
 
+body {
+  background-image: url(https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80) !important;
+}
+
 .App-logo {
   height: 40vmin;
   pointer-events: none;
@@ -43,20 +47,18 @@ button {
   margin: 10px;
 }
 
-
 .card {
-	border-style: solid;
-	border-color: #bbb;
-	border-width: 1px;
-	border-radius: 3px;
-	box-shadow: 0.1px 0.1px 5px #bbb;
-	width: 931px;
-	margin: 10px 0px 10px 0px;
-	background-color: white;
+  border-style: solid;
+  border-color: #bbb;
+  border-width: 1px;
+  border-radius: 3px;
+  box-shadow: 0.1px 0.1px 5px #bbb;
+  width: 931px;
+  margin: 10px 0px 10px 0px;
+  background-color: white;
 }
 
-
-.fromleft{
+.fromleft {
   margin-left: 0;
   padding-left: 0;
 }
@@ -67,5 +69,25 @@ button {
   background: black;
   border: 1px solid #a0a096;
   font-family: Arial, Helvetica, sans-serif;
-  line-height: 1.500em;
+  line-height: 1.5em;
 }
+
+li {
+  list-style-type: none;
+}
+
+ul {
+  padding: 0;
+}
+
+/* .concert-list {
+  display: flex;
+}
+.concert-card {
+  display: flex;
+  justify-content: center;
+}
+
+.concert-list-wrapper {
+  display: flex;
+} */
