@@ -3,10 +3,6 @@
   background-color: pow;
 }
 
-body {
-  background-image: url(https://images.unsplash.com/photo-1514525253161-7a46d19cd819?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=1267&q=80) !important;
-}
-
 .App-logo {
   height: 40vmin;
   pointer-events: none;
