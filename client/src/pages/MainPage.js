@@ -1,12 +1,13 @@
 import React, { Component } from "react";
+import Navbar from "../components/Navbar";
 import moment from "moment";
 import logo from "../logo.svg";
-import "../App.css";
 import SpotifyWebApi from "spotify-web-api-js";
 import axios from "axios";
 import ReactCalendar from "../components/ReactCalendar";
 import Concert from "../components/Concert";
 import ConcertList from "../components/ConcertList";
+import "../components/MainPage.css";
 const spotifyApi = new SpotifyWebApi();
 
 class MainPage extends Component {
@@ -266,59 +267,33 @@ class MainPage extends Component {
 
   render() {
     return (
-      <div className='App' style={{ backgroundColor: "" }}>
-        <div>
-          {!this.state.loggedIn ? (
-            <a href='http://localhost:8888'> Login with Spotify </a>
-          ) : (
-            <a href='http://localhost:8888'> Log out </a>
-          )}
-          {this.state.nowPlaying.name === "" ? null : (
-            <div>Now Playing: {this.state.nowPlaying.name}</div>
-          )}
+      <div className='main-page'>
+        <Navbar />
+        <div className='App' style={{ backgroundColor: "" }}>
           <div>
-            <img src={this.state.nowPlaying.albumArt} style={{ height: 150 }} />
+            {this.state.ready == true ? (
+              <ReactCalendar
+                datesToConcerts={this.state.datesToConcerts}
+                handleClick={this.handleClick}
+                loggedIn={this.state.loggedIn}
+                myCallback={this.doStuffWithDate}
+              />
+            ) : (
+              ""
+            )}
           </div>
-          {this.state.loggedIn && (
-            <button onClick={() => this.getNowPlaying()}>
-              Check Now Playing
-            </button>
-          )}
-        </div>
-        <div>
-          <h1
-            style={{
-              color: "blue",
-              fontSize: "70px",
-              fontFamily: "Arial",
-            }}
-          >
-            {" "}
-            Concert Finder{" "}
-          </h1>
-          {this.state.ready == true ? (
-            <ReactCalendar
-              datesToConcerts={this.state.datesToConcerts}
-              handleClick={this.handleClick}
-              loggedIn={this.state.loggedIn}
-              myCallback={this.doStuffWithDate}
-            />
-          ) : (
-            ""
-          )}
-        </div>
-        <div className='concert-list-wrapper'>
-          {this.state.ready == true ? (
-            <ConcertList
-              concerts={this.state.currentConcerts}
-              artistToConcerts={this.state.concerts}
-            />
-          ) : (
-            ""
-          )}
-        </div>
+          <div className='concert-list-wrapper'>
+            {this.state.ready == true ? (
+              <ConcertList
+                concerts={this.state.currentConcerts}
+                artistToConcerts={this.state.concerts}
+              />
+            ) : (
+              ""
+            )}
+          </div>
 
-        {/* <p id={"after"}></p>
+          {/* <p id={"after"}></p>
         <div>
           {this.state.loggedIn ? (
             <Concert
@@ -334,6 +309,7 @@ class MainPage extends Component {
             />
           ) : null}
         </div> */}
+        </div>
       </div>
     );
   }
