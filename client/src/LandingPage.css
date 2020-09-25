@@ -1,4 +1,4 @@
-@import url("https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900");
+@import url("https://fonts.googleapis.com/css?family=Lato:100,300,400,500,600,700,900");
 
 .landing-page *,
 .landing-page *::after,
@@ -134,8 +134,7 @@ a:hover {
     transform: translate(0);
   }
 }
-
-.btn:link,
+.landing-page .btn:link,
 .btn:visited {
   text-transform: uppercase;
   text-decoration: none;
@@ -157,12 +156,12 @@ a:hover {
   box-shadow: 0 0.5rem 1rem rgba(0, 0, 0, 0.2);
 }
 
-.btn--white {
+.landing-page .btn--white {
   background-color: white;
   color: black;
 }
 
-.btn::after {
+.landing-page .btn::after {
   content: "";
   display: inline-block;
   height: 100%;
@@ -175,16 +174,16 @@ a:hover {
   transition: all 0.4s;
 }
 
-.btn--white::after {
+.landing-page .btn--white::after {
   background-color: white;
 }
 
-.btn:hover::after {
+.landing-page .btn:hover::after {
   transform: scaleX(1.4) scaleY(1.6);
   opacity: 0;
 }
 
-.btn--animated {
+.landing-page .btn--animated {
   animation: moveInBottom 0.5s ease-out 0.75s;
   animation-fill-mode: backwards;
 }

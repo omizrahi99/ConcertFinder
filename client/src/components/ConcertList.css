@@ -3,10 +3,56 @@
   margin-bottom: 3rem;
   margin-top: 0;
   padding: 0;
+  box-shadow: 0 20px 32px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19);
+  font-family: "Lato";
 }
 
 .concert-list {
   margin: 0;
   padding: 0;
   width: 100%;
+}
+
+.card-header {
+  font-size: large;
+  font-weight: 500;
+}
+
+.card-title {
+  font-size: medium;
+  font-weight: 400;
+}
+
+.card-text {
+  font-size: small;
+}
+
+.card-btn {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  border: none;
+  background: #667db6; /* fallback for old browsers */
+  background: -webkit-linear-gradient(
+    to right,
+    #667db6,
+    #0082c8,
+    #0082c8,
+    #667db6
+  ); /* Chrome 10-25, Safari 5.1-6 */
+  background: linear-gradient(
+    to right,
+    #667db6,
+    #0082c8,
+    #0082c8,
+    #667db6
+  ); /* W3C, IE 10+/ Edge, Firefox 16+, Chrome 26+, Opera 12+, Safari 7+ */
+  width: 10rem;
+  height: 3.2rem;
+  transition: all 0.2s;
+}
+
+.card-btn span {
+  font-size: 1.4rem;
 }

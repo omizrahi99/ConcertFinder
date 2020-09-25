@@ -18,3 +18,7 @@
   font-family: "Lato";
   background: transparent !important;
 }
+
+#log-out:hover {
+  color: red !important;
+}

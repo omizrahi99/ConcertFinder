@@ -18,7 +18,7 @@ class LandingPage extends Component {
               </span>
             </h1>
             <a
-              href='http://localhost:8888/'
+              href='http://localhost:8888/login'
               class='btn btn--white btn--animated btn-'
             >
               Get Started

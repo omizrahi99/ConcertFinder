@@ -15,8 +15,9 @@ class Navbar extends Component {
                 class='nav-link active text-white'
                 aria-current='page'
                 href='http://localhost:3000/'
+                id='log-out'
               >
-                SIGN OUT
+                LOG OUT
               </a>
             </li>
           </div>

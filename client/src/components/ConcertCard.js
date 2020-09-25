@@ -18,8 +18,12 @@ class ConcertCard extends Component {
             })}
           </h5>
           <p class='card-text'>{this.props.concert.location.city}</p>
-          <a href='#' class='btn btn-primary'>
-            Go somewhere
+          <a
+            href={this.props.concert.uri}
+            target='_blank'
+            class='btn btn-dark btn-lg card-btn'
+          >
+            <span>Buy Tickets</span>
           </a>
         </div>
       </div>
