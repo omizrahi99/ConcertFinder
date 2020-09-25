@@ -7,7 +7,7 @@ class ConcertCard extends Component {
 
   render() {
     return (
-      <div class='card concert-card'>
+      <div class='card'>
         <div class='card-header'>{this.props.concert.displayName}</div>
         <div class='card-body'>
           <h5 class='card-title'>

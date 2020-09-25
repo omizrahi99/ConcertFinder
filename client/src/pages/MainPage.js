@@ -269,46 +269,31 @@ class MainPage extends Component {
     return (
       <div className='main-page'>
         <Navbar />
-        <div className='App' style={{ backgroundColor: "" }}>
-          <div>
-            {this.state.ready == true ? (
-              <ReactCalendar
-                datesToConcerts={this.state.datesToConcerts}
-                handleClick={this.handleClick}
-                loggedIn={this.state.loggedIn}
-                myCallback={this.doStuffWithDate}
-              />
-            ) : (
-              ""
-            )}
+        <div className='container'>
+          <div className='row'>
+            <div className='col-6'>
+              {this.state.ready == true ? (
+                <ReactCalendar
+                  datesToConcerts={this.state.datesToConcerts}
+                  handleClick={this.handleClick}
+                  loggedIn={this.state.loggedIn}
+                  myCallback={this.doStuffWithDate}
+                />
+              ) : (
+                ""
+              )}
+            </div>
+            <div className='col-6'>
+              {this.state.ready == true ? (
+                <ConcertList
+                  concerts={this.state.currentConcerts}
+                  artistToConcerts={this.state.concerts}
+                />
+              ) : (
+                ""
+              )}
+            </div>
           </div>
-          <div className='concert-list-wrapper'>
-            {this.state.ready == true ? (
-              <ConcertList
-                concerts={this.state.currentConcerts}
-                artistToConcerts={this.state.concerts}
-              />
-            ) : (
-              ""
-            )}
-          </div>
-
-          {/* <p id={"after"}></p>
-        <div>
-          {this.state.loggedIn ? (
-            <Concert
-              photoArtist1={this.state.artistPhoto[0]}
-              photoArtist2={this.state.artistPhoto[1]}
-              photoArtist3={this.state.artistPhoto[2]}
-              topArtist={this.state.artistNames}
-              time={this.state.concertInfo.time}
-              venue={this.state.concertInfo.venue}
-              price={this.state.concertInfo.price}
-              link={this.state.concertInfo.link}
-              clicked={this.state.clicked}
-            />
-          ) : null}
-        </div> */}
         </div>
       </div>
     );

@@ -46,9 +46,6 @@ function ReactCalendar(props) {
         tileContent={props.tileContent}
         onClickDay={props.handleClick}
       />
-      {props.loggedIn ? (
-        <h1 className='dateStyle'>Date: {date.toDateString()}</h1>
-      ) : null}
     </div>
   );
 }
