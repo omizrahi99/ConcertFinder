@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Calendar from "react-calendar";
 import "./ReactCalendar.css";
 
@@ -7,9 +7,12 @@ function ReactCalendar(props) {
 
   function onChange(date) {
     setDate(date);
+    props.myCallback(date);
   }
 
-  console.log(props.datesToConcerts);
+  useEffect(() => {
+    props.myCallback(new Date());
+  }, []);
 
   function dateToObject(dateString) {
     const dateArr = dateString.split("-");
@@ -43,9 +46,6 @@ function ReactCalendar(props) {
         tileContent={props.tileContent}
         onClickDay={props.handleClick}
       />
-      {props.loggedIn ? (
-        <h1 className='dateStyle'>Date: {date.toDateString()}</h1>
-      ) : null}
     </div>
   );
 }
