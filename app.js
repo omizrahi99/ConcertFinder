@@ -9,6 +9,7 @@
 
 require("dotenv").config();
 
+const path = require("path");
 var express = require("express"); // Express web server framework
 var request = require("request"); // "Request" library
 var cors = require("cors");
@@ -42,6 +43,8 @@ app
   .use(express.static(__dirname + "/public"))
   .use(cors())
   .use(cookieParser());
+
+app.use(express.static(path.join(__dirname, "client", "build")));
 
 app.get("/login", function (req, res) {
   var state = generateRandomString(16);
@@ -158,4 +161,7 @@ app.get("/refresh_token", function (req, res) {
 });
 
 console.log("Listening on 8888");
+app.get("*", (req, res) => {
+  res.sendFile(path.join(__dirname, "client", "build", "index.html"));
+});
 app.listen(8888);
