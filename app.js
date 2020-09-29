@@ -8,7 +8,7 @@
  */
 
 require("dotenv").config();
-
+const webpack = require("webpack");
 const path = require("path");
 var express = require("express"); // Express web server framework
 var request = require("request"); // "Request" library
@@ -160,8 +160,22 @@ app.get("/refresh_token", function (req, res) {
   });
 });
 
-console.log("Listening on 8888");
+module.exports = () => {
+  // call dotenv and it will return an Object with a parsed key
+  const env = dotenv.config().parsed;
+
+  // reduce it to a nice object, the same as before
+  const envKeys = Object.keys(env).reduce((prev, next) => {
+    prev[`process.env.${next}`] = JSON.stringify(env[next]);
+    return prev;
+  }, {});
+
+  return {
+    plugins: [new webpack.DefinePlugin(envKeys)],
+  };
+};
+console.log("Listening");
 app.get("*", (req, res) => {
   res.sendFile(path.join(__dirname, "client", "build", "index.html"));
 });
-app.listen(8888);
+app.listen(process.env.PORT || 8888);

@@ -4,6 +4,7 @@ import { Link } from "react-router-dom";
 
 class LandingPage extends Component {
   render() {
+    const login = "http://localhost:" + process.env.REACT_APP_PORT + "/login";
     return (
       <div className='landing-page'>
         <header class='header'>
@@ -17,10 +18,7 @@ class LandingPage extends Component {
                 where everyone speaks one language
               </span>
             </h1>
-            <a
-              href='http://localhost:8888/login'
-              class='btn btn--white btn--animated btn-'
-            >
+            <a href={login} class='btn btn--white btn--animated btn-'>
               Get Started
             </a>
           </div>
